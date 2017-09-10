@@ -2,8 +2,11 @@ Document Search Mobile App Using React Native
 
 Install the following dependencies 
 
-npm install react-native-elements --save
-npm install react-navigation --save
-npm install react-native-vector-icons --save
+1. npm install react-native-elements --save
 
-npm link react-native-vector-icons
+2. npm install react-navigation --save
+
+3. npm install react-native-vector-icons --save
+
+
+4. npm link react-native-vector-icons
