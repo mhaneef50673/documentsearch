@@ -1,6 +1,6 @@
 let mockData = [
     {
-        name : "Battery",
+        name : "Battery.doc",
         type : "doc",
         teaser : "This document has information about the battery details",
         uploadedBy : "Haneef",
@@ -8,7 +8,7 @@ let mockData = [
         imageUri : require('../images/doc.png')
     },
     {
-        name : "Generator",
+        name : "Generator.csv",
         type : "csv",
         teaser : "This document has information about the generator details",
         uploadedBy : "Merlin",
@@ -16,7 +16,7 @@ let mockData = [
         imageUri : require('../images/csv.png')
     },
     {
-        name : "Antenna",
+        name : "Antenna.png",
         type : "image",
         teaser : "This document has information about the antenna details",
         uploadedBy : "Vinoth",
@@ -24,7 +24,7 @@ let mockData = [
         imageUri : require('../images/image.png')
     },
     {
-        name : "Spills",
+        name : "Spills.pdf",
         type : "pdf",
         teaser : "This document has information about the Spills details",
         uploadedBy : "Srini",
@@ -32,7 +32,7 @@ let mockData = [
         imageUri : require('../images/pdf.png')        
     },
     {
-        name : "Purchase Order",
+        name : "Purchase Order.ppt",
         type : "ppt",
         teaser : "This document has information about the Purchase Order details",
         uploadedBy : "Vinoth",
@@ -40,7 +40,7 @@ let mockData = [
         imageUri : require('../images/ppt.png')        
     },
     {
-        name : "RF Design",
+        name : "RF Design.txt",
         type : "txt",
         teaser : "This document has information about the RF Design details",
         uploadedBy : "Haneef",
@@ -48,7 +48,7 @@ let mockData = [
         imageUri : require('../images/txt.png')        
     },
     {
-        name : "Contract",
+        name : "Contract.xlsx",
         type : "xlsx",
         teaser : "This document has information about the Contract details",
         uploadedBy : "Merlin",
