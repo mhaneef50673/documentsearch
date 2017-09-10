@@ -45,7 +45,7 @@ export default TabNavigator(
         return (
           <Ionicons
             name={iconName}
-            size={25}            
+            size={22}            
             color={focused ? '#E74C3C' : Colors.tabIconDefault}
           />
         );
@@ -57,6 +57,9 @@ export default TabNavigator(
     swipeEnabled: false,
     tabBarOptions: {
       activeTintColor: '#E74C3C',
+      labelStyle: {
+        fontSize: 14,
+      },
     },
   }
 );
