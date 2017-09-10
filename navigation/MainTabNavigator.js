@@ -46,7 +46,7 @@ export default TabNavigator(
           <Ionicons
             name={iconName}
             size={25}            
-            color={focused ? 'red' : Colors.tabIconDefault}
+            color={focused ? '#E74C3C' : Colors.tabIconDefault}
           />
         );
       },
@@ -56,7 +56,7 @@ export default TabNavigator(
     animationEnabled: false,
     swipeEnabled: false,
     tabBarOptions: {
-      activeTintColor: 'red',
+      activeTintColor: '#E74C3C',
     },
   }
 );
