@@ -164,7 +164,7 @@ export default class SearchResultsComponent extends React.Component {
                                     <View style={{marginTop:3}}>
                                         <Text style={{color: "grey", fontWeight : 'bold'}}> CLEAR </Text>
                                     </View>  
-                                    <View style={{backgroundColor: '#FF0000',padding:2,marginRight:5,marginBottom:5}}>
+                                    <View style={{backgroundColor: '#E74C3C',padding:2,marginRight:6,marginBottom:6}}>
                                         <TouchableHighlight> 
                                             <Text style={{color: "white", fontWeight : 'bold'}}> APPLY </Text>
                                         </TouchableHighlight>              
