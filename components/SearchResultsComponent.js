@@ -7,8 +7,7 @@ import {
   TextInput,
   Platform,
   ActivityIndicator,
-  TouchableHighlight, 
-  Modal 
+  TouchableHighlight
 } from 'react-native';
 import {   
   List, 
@@ -17,17 +16,20 @@ import {
 import { mockData } from '../assets/mockData/SearchMockData';
 import  Ionicons  from 'react-native-vector-icons/Ionicons';
 
+import ModalComponent from './ModalComponent';
+
 
 export default class SearchResultsComponent extends React.Component {
   
     constructor(props){
         // Always super constructor call comes first
-        super(props);
+        super(props);        
         this.state = {
             loading : true,
             searchText : this.props.searchText,
             searchData : [],
-            modalVisible: false
+            modalVisible: false,
+            filterData : [],
         } 
     }   
 
@@ -50,27 +52,57 @@ export default class SearchResultsComponent extends React.Component {
                         </TouchableHighlight> */                 
     });
 
-    setModalVisible(visible) {
-        this.setState(
-            {
+    setModalVisible() {        
+        let visible = !(this.state.modalVisible);       
+        this.setState({
                 modalVisible: visible
-            }
-        );
+        });
     }
 
-    buttonPress() {        
-        this.setModalVisible(true);
+    buttonPress() {               
+        this.setModalVisible();
+    }
+
+    containsObject(docType,list){
+        var elementIndex = -1;
+
+        if(list.length == 0)
+            return elementIndex;
+
+        list.forEach(function(element,index) {
+            if (element.docType === docType) {
+                elementIndex = index;
+                return true;
+            }
+        }, this);        
+    
+        return elementIndex;
     }
 
     componentDidMount(){
+        var filterDataArr = [];
+        mockData.forEach(function(element) {
+            var index = this.containsObject(element.type,filterDataArr);
+            if(index != -1){
+                filterDataArr[index].docCount += 1; 
+            } else {
+                var obj = {};
+                obj.docType = element.type;
+                obj.docCount = 1;
+                obj.checked = false;
+                filterDataArr.push(obj);
+            }
+        }, this);
         this.setState({
             searchData : mockData,
+            filterData : filterDataArr,
             loading : false
         });  
     }
     
     render() {    
-        let downloadIcon = Platform.OS === 'ios' ? `ios-download` : 'md-download';    
+        let downloadIcon = Platform.OS === 'ios' ? `ios-download` : 'md-download';  
+        var setModalVisible  =   this.setModalVisible;  
         if(this.state.loading){
             return(
                 <ActivityIndicator style={styles.activityIndicator} size = "large" />
@@ -115,7 +147,7 @@ export default class SearchResultsComponent extends React.Component {
                         <TouchableHighlight underlayColor = "white" onPress= {() => this.buttonPress('sort')}>
                             <View>
                             <Ionicons
-                            name={'md-arrow-round-down'}
+                                name={'md-arrow-round-down'}
                                 size={20}            
                                 color={'red'}
                             >
@@ -136,46 +168,9 @@ export default class SearchResultsComponent extends React.Component {
                             </View>
                         </TouchableHighlight>          
                     </View>
-                    <Modal
-                        animationType="slide"
-                        transparent={false}
-                        visible={this.state.modalVisible}
-                        onRequestClose={() => {
-                            this.setModalVisible(!this.state.modalVisible)
-                        }}
-                    >
-                        <View style={{paddingTop:22}}>
-                            <View style={{height : 30, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'grey'}}>
-                                <View style={{paddingLeft: 10, paddingRight: 20}}>
-                                    <TouchableHighlight onPress={() => {
-                                        this.setModalVisible(!this.state.modalVisible)
-                                    }}>
-                                        <Ionicons
-                                        name={'md-close'}
-                                        size={24}  
-                                        color={'grey'}
-                                        />
-                                    </TouchableHighlight>  
-                                </View>            
-                                <View style={{marginTop:3}}>
-                                    <Text style={{color: "grey", fontWeight : 'bold'}}> FILTER BY </Text>
-                                </View>
-                                <View style={{flex:1, flexDirection: 'row',justifyContent: 'flex-end', alignItems: 'flex-start'}}>
-                                    <View style={{marginTop:3}}>
-                                        <Text style={{color: "grey", fontWeight : 'bold'}}> CLEAR </Text>
-                                    </View>  
-                                    <View style={{backgroundColor: '#E74C3C',padding:2,marginRight:6,marginBottom:6}}>
-                                        <TouchableHighlight> 
-                                            <Text style={{color: "white", fontWeight : 'bold'}}> APPLY </Text>
-                                        </TouchableHighlight>              
-                                    </View>
-                                </View>            
-                            </View>
-                            <View>
-
-                            </View>
-                        </View>
-                    </Modal>                                            
+                    {(this.state.modalVisible) ? 
+                        <ModalComponent modalVisible = {this.state.modalVisible} modalData = {this.state.filterData}
+                        setModalVisible = {setModalVisible.bind(this)} /> : null}                                                         
                 </View>  
             );
         }    

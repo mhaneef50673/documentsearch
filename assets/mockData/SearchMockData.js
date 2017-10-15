@@ -1,7 +1,7 @@
 let mockData = [
     {
         name : "Battery.doc",
-        type : "doc",
+        type : "DOC",
         teaser : "This document has information about the battery details",
         uploadedBy : "Haneef",
         date : "1/1/2017",
@@ -9,7 +9,7 @@ let mockData = [
     },
     {
         name : "Generator.csv",
-        type : "csv",
+        type : "CSV",
         teaser : "This document has information about the generator details",
         uploadedBy : "Merlin",
         date : "2/1/2017",
@@ -17,7 +17,7 @@ let mockData = [
     },
     {
         name : "Antenna.png",
-        type : "image",
+        type : "IMG",
         teaser : "This document has information about the antenna details",
         uploadedBy : "Vinoth",
         date : "5/3/2017",
@@ -25,7 +25,7 @@ let mockData = [
     },
     {
         name : "Spills.pdf",
-        type : "pdf",
+        type : "PDF",
         teaser : "This document has information about the Spills details",
         uploadedBy : "Srini",
         date : "10/3/2017",
@@ -33,7 +33,7 @@ let mockData = [
     },
     {
         name : "Purchase Order.ppt",
-        type : "ppt",
+        type : "PPT",
         teaser : "This document has information about the Purchase Order details",
         uploadedBy : "Vinoth",
         date : "15/3/2017",
@@ -41,7 +41,7 @@ let mockData = [
     },
     {
         name : "RF Design.txt",
-        type : "txt",
+        type : "TXT",
         teaser : "This document has information about the RF Design details",
         uploadedBy : "Haneef",
         date : "25/4/2017",
@@ -49,7 +49,7 @@ let mockData = [
     },
     {
         name : "Contract.xlsx",
-        type : "xlsx",
+        type : "XLSX",
         teaser : "This document has information about the Contract details",
         uploadedBy : "Merlin",
         date : "10/3/2017",
