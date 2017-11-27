@@ -11,30 +11,24 @@ class CheckBoxComponent extends Component {
    
     constructor(props){
         super(props);
-        this.state = {
-            checked : this.props.isChecked,
+        /*this.state = {
             label : this.props.label,
             docType : this.props.docType            
-        }
+        }*/
     }
 
     toggleCheckboxChange = () => {
         const { handleCheckboxChange, label, docType } = this.props;
-    
-        this.setState(({ checked }) => (
-          {
-            checked: !checked,
-          }
-        ));
         console.log("docType is " + docType);
         handleCheckboxChange(docType);
     }
 
     render() {
+        const { isChecked, label } = this.props;
         return(
             <CheckBox   
-                title= {this.state.label}                
-                checked={this.state.checked}
+                title= {label}                
+                checked={isChecked}
                 onPress = {this.toggleCheckboxChange}
                 onIconPress = {this.toggleCheckboxChange}                
                 checkedColor = '#E74C3C'

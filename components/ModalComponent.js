@@ -28,85 +28,123 @@ const checkBoxesMock = [
 export default class ModalComponent extends React.Component {
     constructor(props){
         super(props);
-        this.state = {
-            modalVisible : this.props.modalVisible,
+        this.state = {            
             filters : this.props.modalData
         }
     }
 
     componentWillMount = () => {
-        this.selectedCheckboxes = new Set();
+        //this.selectedCheckboxes = new Set();
     }
 
     toggleCheckbox = label => {                                
-        if (this.selectedCheckboxes.has(label)) {
-            this.selectedCheckboxes.delete(label);
-        } else {
-            this.selectedCheckboxes.add(label); 
-        }                   
-        console.log(this.selectedCheckboxes);
+        this.setState({filters: this.state.filters.map(
+            (filter)=> filter.docType == label ? Object.assign(filter, filter, {checked: !(filter.checked)}) : filter 
+        )});                
     }
 
-    render(){
-        var setModalVisible  =   this.props.setModalVisible;
+    resetSelection(){
+        console.log("Resetting selection");
+       // this.selectedCheckboxes.clear();
+        var filtersObj = this.state.filters;
+        console.log(this.state.filters);
+
+        this.state.filters.map(
+            (filter) => Object.assign(filter, filter, {checked: false})
+        );
+
+        this.setState({
+            filters : this.state.filters
+        });
+
+        console.log("After changing");
+        console.log(this.state.filters);
+
+    }
+
+    closeModal(){
+        this.resetSelection();
+        this.props.setModalVisible();  
+    }
+
+    applySelection(){
+        console.log("Apply filter");
+        this.props.applyFilter(this.state.filters);
+    }
+
+    render(){                        
+        const {modalVisible} = this.props;
         return (
             <Modal
                 animationType="slide"
                 transparent={false}
-                visible={this.state.modalVisible}
+                visible={modalVisible}
                 onRequestClose={() => {
-                    setModalVisible()
+                    this.closeModal()
                 }}
             >
-            <View style={{paddingTop:22}}>
-                <View style={{height : 30, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'grey'}}>
-                    <View style={{paddingLeft: 10, paddingRight: 20}}>
-                        <TouchableHighlight onPress={() => {
-                            setModalVisible()
-                        }}>
-                            <Ionicons
-                                name={'md-close'}
-                                size={26}  
-                                color={'grey'}
-                            />
-                        </TouchableHighlight>  
-                    </View>            
-                    <View style={{marginTop:3}}>
-                        <Text style={{color: "grey", fontWeight : 'bold'}}> FILTER BY </Text>
-                    </View>
-                    <View style={{flex:1, flexDirection: 'row',justifyContent: 'flex-end', alignItems: 'flex-start'}}>
-                        <View style={{marginTop:3,marginRight:10}}>
-                            <Text style={{color: "grey", fontWeight : 'bold'}}> CLEAR </Text>
-                        </View>  
-                        <View style={{backgroundColor: '#E74C3C',borderColor:'#E74C3C',padding:2,paddingLeft:10,
-                            paddingRight:10,marginRight:10,marginBottom:6,borderWidth :1,borderRadius:3}}>
-                            <TouchableHighlight> 
-                                <Text style={{color: "white", fontWeight : 'bold'}}> APPLY </Text>
-                            </TouchableHighlight>              
+                <View style={{paddingTop:12}}>
+                    <View style={{height : 30, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'grey'}}>
+                        <View style={{paddingLeft: 10, paddingRight: 20}}>
+                            <TouchableHighlight underlayColor = "white" onPress={() => {
+                                this.closeModal()
+                            }}>
+                                <View>
+                                    <Ionicons
+                                        name={'md-close'}
+                                        size={26}  
+                                        color={'grey'}
+                                    />
+                                </View>
+                            </TouchableHighlight>  
+                        </View>            
+                        <View style={{marginTop:3}}>
+                            <Text style={{color: "grey", fontWeight : 'bold'}}> FILTER BY </Text>
                         </View>
-                    </View>            
+                        <View style={{flex:1, flexDirection: 'row',justifyContent: 'flex-end', alignItems: 'flex-start'}}>
+                            <View style={{marginTop:3,marginRight:10}}>
+                                <TouchableHighlight underlayColor = "#E74C3C" onPress={() => {
+                                    this.resetSelection()
+                                }}>
+                                    <View>
+                                        <Text style={{color: "grey", fontWeight : 'bold'}}> CLEAR </Text>
+                                    </View>    
+                                </TouchableHighlight>    
+                            </View>  
+                            <View style={{backgroundColor: '#E74C3C',borderColor:'#E74C3C',padding:2,paddingLeft:10,
+                                paddingRight:10,marginRight:10,marginBottom:6,borderWidth :1,borderRadius:3}}>
+                                <TouchableHighlight underlayColor = "#E74C3C" onPress={() => {
+                                    this.applySelection()
+                                }}
+                                > 
+                                    <View>
+                                        <Text style={{color: "white", fontWeight : 'bold'}}> APPLY </Text>
+                                    </View>
+                                </TouchableHighlight>              
+                            </View>
+                        </View>            
+                    </View>
+                    <View>
+                        <View style={{marginTop :15}}> 
+                            <Text style={{color: "grey", fontWeight : 'bold', fontSize:22, 
+                                textAlign: 'center',textDecorationLine:'underline'}}>
+                                Document Type
+                            </Text>                        
+                        </View> 
+                        <ScrollView>
+                            {
+                            this.state.filters.map((checkbox,index) =>                            
+                            <CheckBoxComponent 
+                                    label = {checkbox.docType + " (" + checkbox.docCount + ")"}
+                                    isChecked = {checkbox.checked}
+                                    docType = {checkbox.docType}
+                                    handleCheckboxChange={this.toggleCheckbox}
+                                    key = {index} 
+                            />
+                            )} 
+                        </ScrollView>      
+                    </View>
                 </View>
-                <View>
-                    <View style={{marginTop :15}}> 
-                        <Text style={{color: "grey", fontWeight : 'bold', fontSize:22, 
-                            textAlign: 'center',textDecorationLine:'underline'}}>
-                            Document Type
-                        </Text>                        
-                    </View> 
-                    <ScrollView>
-                        {
-                           this.state.filters.map((checkbox,index) => 
-                           <CheckBoxComponent 
-                                label = {checkbox.docType + " (" + checkbox.docCount + ")"}
-                                isChecked = {checkbox.checked}
-                                docType = {checkbox.docType}
-                                handleCheckboxChange={this.toggleCheckbox}
-                                key = {index} 
-                           />
-                        )} 
-                    </ScrollView>      
-                </View>
-            </View>
         </Modal>
         );
     }

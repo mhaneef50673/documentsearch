@@ -10,7 +10,7 @@ export default class LinksScreen extends React.Component {
     header : null  
   };
 
-  render() {
+  render() { 
     return (
       <View style={styles.container}>            
         <View style={styles.viewStyle}>

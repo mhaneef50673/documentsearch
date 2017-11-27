@@ -15,6 +15,7 @@ import {
 } from 'react-native-elements';
 import { mockData } from '../assets/mockData/SearchMockData';
 import  Ionicons  from 'react-native-vector-icons/Ionicons';
+import ModalPicker from 'react-native-modal-picker'
 
 import ModalComponent from './ModalComponent';
 
@@ -28,6 +29,7 @@ export default class SearchResultsComponent extends React.Component {
             loading : true,
             searchText : this.props.searchText,
             searchData : [],
+            backUpSearchData : [],
             modalVisible: false,
             filterData : [],
         } 
@@ -38,18 +40,7 @@ export default class SearchResultsComponent extends React.Component {
         headerStyle : { 
             backgroundColor: '#E74C3C' 
         },
-        headerTintColor : 'white'/* ,
-        headerRight :   <TouchableHighlight onPress = {navigation.state.params.handleShare}
-                            activeOpacity = {10}
-                            underlayColor = {'#ff0000'}>
-                            <View style={{ marginRight : 10 }} > 
-                                <FontAwesome
-                                    name ={'share-alt'}
-                                    size ={25}
-                                    color = {'white'}                                                    
-                                />  
-                            </View>
-                        </TouchableHighlight> */                 
+        headerTintColor : 'white'               
     });
 
     setModalVisible() {        
@@ -57,10 +48,42 @@ export default class SearchResultsComponent extends React.Component {
         this.setState({
                 modalVisible: visible
         });
+        console.log("Modal is closing");
+    }
+
+    applyFilter(filterData){
+        this.setModalVisible();
+        console.log(filterData);
+        var filteredSearchData = [];
+        filterData.forEach(function(filter) {
+            if(filter.checked){
+                this.state.backUpSearchData.forEach(function(searchData) {
+                    if(searchData.type == filter.docType)
+                        filteredSearchData.push(searchData);
+                }, this);
+            } 
+        }, this);
+
+        console.log("Filtered Data is ");
+        console.log(filteredSearchData);
+        
+        // Then surely none of the filters have been applied.
+        if(filteredSearchData.length == 0)
+            filteredSearchData = this.state.backUpSearchData;
+
+        this.setState({
+            searchData : filteredSearchData
+        })
+
     }
 
     buttonPress() {               
         this.setModalVisible();
+    }
+
+    sortSearchData(sortBy){
+        console.log("Sort Data");
+        console.log(sortBy);
     }
 
     containsObject(docType,list){
@@ -95,6 +118,7 @@ export default class SearchResultsComponent extends React.Component {
         }, this);
         this.setState({
             searchData : mockData,
+            backUpSearchData : mockData,
             filterData : filterDataArr,
             loading : false
         });  
@@ -102,7 +126,16 @@ export default class SearchResultsComponent extends React.Component {
     
     render() {    
         let downloadIcon = Platform.OS === 'ios' ? `ios-download` : 'md-download';  
-        var setModalVisible  =   this.setModalVisible;  
+        var setModalVisible  =   this.setModalVisible;
+        let index = 0;
+        const sortData = [
+            { key: index++, section: true, label: 'Sort By' },
+            { key: index++, label: 'Document Date' },
+            { key: index++, label: 'Document Name' },
+            { key: index++, label: 'Document Type' },
+            { key: index++, label: 'Document Uploaded By' }
+        ];
+
         if(this.state.loading){
             return(
                 <ActivityIndicator style={styles.activityIndicator} size = "large" />
@@ -140,21 +173,31 @@ export default class SearchResultsComponent extends React.Component {
                                     ))
                                 }
                                 </List>
-                            }            
-                        </ScrollView>
+                            }                                      
+                        </ScrollView>               
                     </View>
                     <View style={styles.bottomView}>
-                        <TouchableHighlight underlayColor = "white" onPress= {() => this.buttonPress('sort')}>
-                            <View>
-                            <Ionicons
-                                name={'md-arrow-round-down'}
-                                size={20}            
-                                color={'red'}
-                            >
-                            <Text style={{color : 'black', fontSize : 18}}> Sort </Text>
-                            </Ionicons>
-                            </View>
-                        </TouchableHighlight>
+                                <View>
+                                        <TouchableHighlight underlayColor = "white">
+                                            <View>
+                                                <ModalPicker
+                                                    data={sortData}                                        
+                                                    onChange={(option)=>{ this.sortSearchData(option) }} 
+                                                    cancelText = {"Cancel"}
+                                                >
+                                                    <View>
+                                                        <Ionicons
+                                                            name={'md-arrow-round-down'}
+                                                            size={20}            
+                                                            color={'red'}
+                                                        >
+                                                            <Text style={{color : 'black', fontSize : 18}}> Sort </Text>
+                                                        </Ionicons>                                                   
+                                                    </View>
+                                                </ModalPicker>
+                                            </View>
+                                        </TouchableHighlight>                                    
+                                </View>                        
 
                         <TouchableHighlight underlayColor = "white" onPress= {() => this.buttonPress('filter')}>
                             <View>
@@ -170,7 +213,8 @@ export default class SearchResultsComponent extends React.Component {
                     </View>
                     {(this.state.modalVisible) ? 
                         <ModalComponent modalVisible = {this.state.modalVisible} modalData = {this.state.filterData}
-                        setModalVisible = {setModalVisible.bind(this)} /> : null}                                                         
+                        setModalVisible = {setModalVisible.bind(this)} 
+                        applyFilter = {this.applyFilter.bind(this)} /> : null}                                                                                 
                 </View>  
             );
         }    
