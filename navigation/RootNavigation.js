@@ -1,4 +1,3 @@
-//import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 

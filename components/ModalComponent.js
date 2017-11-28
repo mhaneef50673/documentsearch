@@ -33,8 +33,7 @@ export default class ModalComponent extends React.Component {
         }
     }
 
-    componentWillMount = () => {
-        //this.selectedCheckboxes = new Set();
+    componentWillMount = () => {        
     }
 
     toggleCheckbox = label => {                                
@@ -43,11 +42,8 @@ export default class ModalComponent extends React.Component {
         )});                
     }
 
-    resetSelection(){
-        console.log("Resetting selection");
-       // this.selectedCheckboxes.clear();
-        var filtersObj = this.state.filters;
-        console.log(this.state.filters);
+    resetSelection(){               
+        let filtersObj = this.state.filters;        
 
         this.state.filters.map(
             (filter) => Object.assign(filter, filter, {checked: false})
@@ -56,10 +52,6 @@ export default class ModalComponent extends React.Component {
         this.setState({
             filters : this.state.filters
         });
-
-        console.log("After changing");
-        console.log(this.state.filters);
-
     }
 
     closeModal(){
@@ -67,8 +59,7 @@ export default class ModalComponent extends React.Component {
         this.props.setModalVisible();  
     }
 
-    applySelection(){
-        console.log("Apply filter");
+    applySelection(){        
         this.props.applyFilter(this.state.filters);
     }
 

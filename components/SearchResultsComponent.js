@@ -18,6 +18,7 @@ import  Ionicons  from 'react-native-vector-icons/Ionicons';
 import ModalPicker from 'react-native-modal-picker'
 
 import ModalComponent from './ModalComponent';
+import CustomSort from '../services/CustomSort';
 
 
 export default class SearchResultsComponent extends React.Component {
@@ -47,14 +48,12 @@ export default class SearchResultsComponent extends React.Component {
         let visible = !(this.state.modalVisible);       
         this.setState({
                 modalVisible: visible
-        });
-        console.log("Modal is closing");
+        });        
     }
 
     applyFilter(filterData){
-        this.setModalVisible();
-        console.log(filterData);
-        var filteredSearchData = [];
+        this.setModalVisible();        
+        let filteredSearchData = [];
         filterData.forEach(function(filter) {
             if(filter.checked){
                 this.state.backUpSearchData.forEach(function(searchData) {
@@ -63,13 +62,10 @@ export default class SearchResultsComponent extends React.Component {
                 }, this);
             } 
         }, this);
-
-        console.log("Filtered Data is ");
-        console.log(filteredSearchData);
         
         // Then surely none of the filters have been applied.
         if(filteredSearchData.length == 0)
-            filteredSearchData = this.state.backUpSearchData;
+            filteredSearchData = [...this.state.backUpSearchData];
 
         this.setState({
             searchData : filteredSearchData
@@ -82,12 +78,14 @@ export default class SearchResultsComponent extends React.Component {
     }
 
     sortSearchData(sortBy){
-        console.log("Sort Data");
-        console.log(sortBy);
+        let sortedSearchData = CustomSort.sort([...this.state.backUpSearchData],sortBy.field, sortBy.fieldType);
+        this.setState({
+            searchData : sortedSearchData
+        })
     }
 
     containsObject(docType,list){
-        var elementIndex = -1;
+        let elementIndex = -1;
 
         if(list.length == 0)
             return elementIndex;
@@ -103,13 +101,13 @@ export default class SearchResultsComponent extends React.Component {
     }
 
     componentDidMount(){
-        var filterDataArr = [];
+        let filterDataArr = [];
         mockData.forEach(function(element) {
-            var index = this.containsObject(element.type,filterDataArr);
+            let index = this.containsObject(element.type,filterDataArr);
             if(index != -1){
                 filterDataArr[index].docCount += 1; 
             } else {
-                var obj = {};
+                let obj = {};
                 obj.docType = element.type;
                 obj.docCount = 1;
                 obj.checked = false;
@@ -126,14 +124,14 @@ export default class SearchResultsComponent extends React.Component {
     
     render() {    
         let downloadIcon = Platform.OS === 'ios' ? `ios-download` : 'md-download';  
-        var setModalVisible  =   this.setModalVisible;
+        let setModalVisible  =   this.setModalVisible;
         let index = 0;
-        const sortData = [
+        const sortCriteria = [
             { key: index++, section: true, label: 'Sort By' },
-            { key: index++, label: 'Document Date' },
-            { key: index++, label: 'Document Name' },
-            { key: index++, label: 'Document Type' },
-            { key: index++, label: 'Document Uploaded By' }
+            { key: index++, label: 'Document Date', field :'date', fieldType: 'date' },
+            { key: index++, label: 'Document Name', field :'name', fieldType: 'string' },
+            { key: index++, label: 'Document Type', field :'type', fieldType: 'string' },
+            { key: index++, label: 'Document Uploaded By',field :'uploadedBy', fieldType: 'string' }
         ];
 
         if(this.state.loading){
@@ -181,7 +179,7 @@ export default class SearchResultsComponent extends React.Component {
                                         <TouchableHighlight underlayColor = "white">
                                             <View>
                                                 <ModalPicker
-                                                    data={sortData}                                        
+                                                    data={sortCriteria}                                        
                                                     onChange={(option)=>{ this.sortSearchData(option) }} 
                                                     cancelText = {"Cancel"}
                                                 >

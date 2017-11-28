@@ -9,17 +9,8 @@ import  Ionicons  from 'react-native-vector-icons/Ionicons';
 
 class CheckBoxComponent extends Component {
    
-    constructor(props){
-        super(props);
-        /*this.state = {
-            label : this.props.label,
-            docType : this.props.docType            
-        }*/
-    }
-
     toggleCheckboxChange = () => {
-        const { handleCheckboxChange, label, docType } = this.props;
-        console.log("docType is " + docType);
+        const { handleCheckboxChange, label, docType } = this.props;        
         handleCheckboxChange(docType);
     }
 

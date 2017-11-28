@@ -30,20 +30,7 @@ export default class SearchResults extends React.Component {
         headerStyle : { 
             backgroundColor: '#E74C3C' 
         },
-        headerTintColor : 'white'
-        // TODO : include search icon over here
-        /* ,
-        headerRight :   <TouchableHighlight onPress = {navigation.state.params.handleShare}
-                            activeOpacity = {10}
-                            underlayColor = {'#ff0000'}>
-                            <View style={{ marginRight : 10 }} > 
-                                <FontAwesome
-                                    name ={'share-alt'}
-                                    size ={25}
-                                    color = {'white'}                                                    
-                                />  
-                            </View>
-                        </TouchableHighlight> */                 
+        headerTintColor : 'white'                
     });
   
   render() {    
