@@ -16,3 +16,7 @@ Install the following dependencies
 6. npm install --save react-native-fetch-blob
 
 7. react-native link (to link react-native-fetch-blob to android gradle settings)
+
+8. run this command in Git Bash (for adding  the AndroidManifest.xml automatically) => RNFB_ANDROID_PERMISSIONS=true react-native link 
+
+   refer https://github.com/wkh237/react-native-fetch-blob#user-content-download-example--fetch-files-that-needs-authorization-token for more info
