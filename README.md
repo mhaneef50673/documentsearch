@@ -10,3 +10,9 @@ Install the following dependencies
 
 
 4. npm link react-native-vector-icons
+
+5. npm i react-native-modal-picker --save
+
+6. npm install --save react-native-fetch-blob
+
+7. react-native link (to link react-native-fetch-blob to android gradle settings)
