@@ -5,7 +5,8 @@ let mockData = [
         teaser : "This document has information about the battery details",
         uploadedBy : "Haneef",
         date : "1/1/2017",
-        imageUri : require('../images/doc.png')
+        imageUri : require('../images/doc.png'),
+        path : "http://www.gstatic.com/webp/gallery/1.png"
     },
     {
         name : "Generator.csv",
@@ -13,7 +14,8 @@ let mockData = [
         teaser : "This document has information about the generator details",
         uploadedBy : "Merlin",
         date : "2/1/2017",
-        imageUri : require('../images/csv.png')
+        imageUri : require('../images/csv.png'),
+        path : "http://www.gstatic.com/webp/gallery/1.png"
     },
     {
         name : "Antenna.png",
@@ -21,7 +23,8 @@ let mockData = [
         teaser : "This document has information about the antenna details",
         uploadedBy : "Vinoth",
         date : "5/3/2017",
-        imageUri : require('../images/image.png')
+        imageUri : require('../images/image.png'),
+        path : "http://www.gstatic.com/webp/gallery/1.png"
     },
     {
         name : "Spills.pdf",
@@ -29,7 +32,8 @@ let mockData = [
         teaser : "This document has information about the Spills details",
         uploadedBy : "Srini",
         date : "10/3/2017",
-        imageUri : require('../images/pdf.png')        
+        imageUri : require('../images/pdf.png'),
+        path : "http://www.gstatic.com/webp/gallery/1.png"        
     },
     {
         name : "Purchase Order.ppt",
@@ -37,7 +41,8 @@ let mockData = [
         teaser : "This document has information about the Purchase Order details",
         uploadedBy : "Vinoth",
         date : "15/3/2017",
-        imageUri : require('../images/ppt.png')        
+        imageUri : require('../images/ppt.png'),
+        path : "http://www.gstatic.com/webp/gallery/1.png"        
     },
     {
         name : "RF Design.txt",
@@ -45,7 +50,8 @@ let mockData = [
         teaser : "This document has information about the RF Design details",
         uploadedBy : "Haneef",
         date : "25/4/2017",
-        imageUri : require('../images/txt.png')        
+        imageUri : require('../images/txt.png'),
+        path : "http://www.gstatic.com/webp/gallery/1.png"        
     },
     {
         name : "Contract.xlsx",
@@ -53,8 +59,9 @@ let mockData = [
         teaser : "This document has information about the Contract details",
         uploadedBy : "Merlin",
         date : "10/3/2017",
-        imageUri : require('../images/xlsx.png')       
+        imageUri : require('../images/xlsx.png'),
+        path : "http://www.gstatic.com/webp/gallery/1.png"       
     }    
   ];
 
-export { mockData };
+export default mockData;

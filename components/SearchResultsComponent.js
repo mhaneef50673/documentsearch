@@ -13,12 +13,13 @@ import {
   List, 
   ListItem 
 } from 'react-native-elements';
-import { mockData } from '../assets/mockData/SearchMockData';
-import  Ionicons  from 'react-native-vector-icons/Ionicons';
+import mockData from '../assets/mockData/SearchMockData';
+import Ionicons  from 'react-native-vector-icons/Ionicons';
 import ModalPicker from 'react-native-modal-picker'
 
 import ModalComponent from './ModalComponent';
 import CustomSort from '../services/CustomSort';
+import FileManagerService from '../services/FileManagerService';
 
 
 export default class SearchResultsComponent extends React.Component {
@@ -100,6 +101,14 @@ export default class SearchResultsComponent extends React.Component {
         return elementIndex;
     }
 
+    downloadFile(doc){        
+        console.log(doc);
+        //alert(doc.path);
+        FileManagerService.downloadFile(doc.path, () => {
+            console.log("File Downloaded successfully");
+        });
+    }
+
     componentDidMount(){
         let filterDataArr = [];
         mockData.forEach(function(element) {
@@ -166,6 +175,7 @@ export default class SearchResultsComponent extends React.Component {
                                         </View>  
                                         }
                                         rightIcon = {{ name : downloadIcon , type: 'ionicon', style: styles.iconStyle}}
+                                        onPressRightIcon = {() => {this.downloadFile(l)}}
                                         avatarStyle = {styles.avatarStyle}
                                     />
                                     ))
